@@ -26,7 +26,7 @@ jobs:
       - name: Add label
         uses: andymckay/labeler@master
         with:
-          add-labels: "exercise1"
+          add-labels: "issue1"
       - name: Assign author to issue
         uses: technote-space/assign-author@v1
 
@@ -45,6 +45,6 @@ jobs:
       - name: Add label
         uses: andymckay/labeler@master
         with:
-          add-labels: "exercise2"
+          add-labels: "issue2"
       - name: Assign author to issue
         uses: technote-space/assign-author@v1
