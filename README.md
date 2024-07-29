@@ -1,4 +1,4 @@
-# Git--Practive
+# Git--Practice
 专用于本团队内部的Git练习
 
 > 练习代码贡献中的 `fork` 、`pull request` 等操作。
