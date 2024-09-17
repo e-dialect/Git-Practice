@@ -1,11 +1,6 @@
-name: Pull Request Checker
-on:
-  pull_request:
-    branches:
-      - main
+name: Commitlint
 
-permissions:
-  pull-requests: read
+on: [pull_request]
 
 jobs:
   commitlint:
@@ -14,26 +9,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14'
-      - run: npm install
-      - run: |
-          npm install --save-dev @commitlint/config-angular @commitlint/cli
-          echo "module.exports = {extends: ['@commitlint/config-angular']};" > commitlint.config.js
-
-      # Run the commitlint action, considering its own dependencies and yours as well 🚀
-      # `github.workspace` is the path to your repository.
-      - uses: wagoid/commitlint-github-action@v5
-        env:
-          NODE_PATH: ${{ github.workspace }}/node_modules
-        with:
-          helpURL: 'https://github.com/FrogDar/code-contributing-practice/blob/main/CONTRIBUTING.md'
-
-      # check if the PR close an issue in PR body
-      - name: Check if the PR close an issue in PR body
-        run: |
-          if ! echo "${{ github.event.pull_request.body }}" | grep -q "close" ; then
-            echo "No issue closed in the PR body. Please add a line like 'close #123' to the PR body."
-            exit 1
-          fi
+          node-version: '16'
+      - run: npm install -g @commitlint/cli @commitlint/config-conventional
+      - run: echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+      - run: commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
